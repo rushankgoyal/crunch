@@ -1,0 +1,36 @@
+<html>
+<head></head>
+<body>
+<form name="submit-to-google-sheet">
+  <input name="name" type="text" placeholder="Name" required>
+  <input name="email" type="email" placeholder="Email" required>
+  <input name="number" type="number" placeholder="Mobile Number">
+  <input name="location" type="text" placeholder="Location">
+  <input name="timings" type="text" placeholder="Restauarant Timings" required>
+  <input name="offer" type="text" placeholder="Active Offer">
+  <button type="submit">Send</button>
+</form>
+
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzirlpaneDgy-hdha3640cCQqZux8G6cSQsYdtfHP7oj2D_Qfc/exec'
+  const form = document.forms['submit-to-google-sheet']
+
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+    fetch(https://script.google.com/macros/s/AKfycbzirlpaneDgy-hdha3640cCQqZux8G6cSQsYdtfHP7oj2D_Qfc/exec, { method: 'POST', body: new FormData(form)})
+      .then(response => console.log('Success!', response))
+      .catch(error => console.error('Error!', error.message))
+  })
+</script>
+<script src="https://wzrd.in/standalone/formdata-polyfill"></script>
+<script src="https://wzrd.in/standalone/promise-polyfill@latest"></script>
+<script src="https://wzrd.in/standalone/whatwg-fetch@latest"></script>
+
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzirlpaneDgy-hdha3640cCQqZux8G6cSQsYdtfHP7oj2D_Qfc/exec'
+  const form = document.forms['submit-to-google-sheet']
+  ...
+</script>
+
+</body>
+</html>
