@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Form To Google Sheets Demo</title>
+  <meta name="description" content="Store HTML form submissions in Google Sheets">
+  <link href="./favicon.png" rel="shortcut icon">
+
+  <link rel="stylesheet" href="main.css">
+  <script src="https://unpkg.com/prefixfree@1.0.0/prefixfree.min.js"></script>
+
+  <script src="https://wzrd.in/standalone/formdata-polyfill@latest"></script>
+  <script src="https://wzrd.in/standalone/promise-polyfill@latest"></script>
+  <script src="https://wzrd.in/standalone/whatwg-fetch@latest"></script>
+</head>
+<body>
+
+  <div class="form-container">
+    <form name="submit-to-google-sheet">
+  <input name="name" type="text" placeholder="Name" required>
+  <input name="email" type="email" placeholder="Email" required>
+  <input name="number" type="number" placeholder="Mobile Number">
+  <input name="location" type="text" placeholder="Location">
+  <input name="timings" type="text" placeholder="Restauarant Timings" required>
+  <input name="offer" type="text" placeholder="Active Offer">
+  <button type="submit">Submit</button>
+</form>
+
+    <div class="loading js-loading is-hidden">
+      <div class="loading-spinner">
+        <svg><circle cx="25" cy="25" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg>
+      </div>
+    </div>
+
+    <p class="js-success-message is-hidden"></p>
+    <p class="js-error-message is-hidden"></p>
+  </div>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzirlpaneDgy-hdha3640cCQqZux8G6cSQsYdtfHP7oj2D_Qfc/exec'
+    const form = document.forms['submit-to-google-sheet']
+    const loading = document.querySelector('.js-loading')
+    const successMessage = document.querySelector('.js-success-message')
+    const errorMessage = document.querySelector('.js-error-message')
+
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      showLoadingIndicator()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => showSuccessMessage(response))
+        .catch(error => showErrorMessage(error))
+    })
+
+    function showLoadingIndicator () {
+      form.classList.add('is-hidden')
+      loading.classList.remove('is-hidden')
+    }
+
+    function showSuccessMessage (response) {
+      console.log('Success!', response)
+      setTimeout(() => {
+        successMessage.classList.remove('is-hidden')
+        loading.classList.add('is-hidden')
+      }, 500)
+    }
+
+    function showErrorMessage (error) {
+      console.error('Error!', error.message)
+      setTimeout(() => {
+        errorMessage.classList.remove('is-hidden')
+        loading.classList.add('is-hidden')
+      }, 500)
+    }
+  </script>
+    <h4> By clicking submit, you agree to our terms and conditions</h4>
+    <h1> <b>Just click submit once, your information will be saved</b></h1>
+</body>
+</html>
